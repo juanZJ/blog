@@ -46,14 +46,14 @@
 
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script>
-    $(function () {  
+    $(function(){
       $('#form').on('submit', function () {
         $.ajax({
           url: '/login',
           type: 'POST',
-          data: $('#form').serialize(),
+          data: $("#form").serialize(),
           dataType: 'json',
-          success: function (result) {  
+          success: function (result) {
             if (result.status === 200) {
               alert(result.msg)
               location.href = '/'
