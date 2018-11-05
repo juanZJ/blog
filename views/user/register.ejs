@@ -46,26 +46,24 @@
 
   <script src="/node_modules/jquery/dist/jquery.min.js"></script>
   <script>
-    $(function () {  
-      $('#form').on('submit', function (e) {  
-        // console.log('表单马上要被提交了!');
-
-        // console.log($('#form').serialize())
-
+    $(function(){
+      $('#form').on('submit', function (e) {
+        // console.log('ok')
+        //取消表单中的默认提交事件
+        // e.preventDefault()或者return false
         $.ajax({
           url: '/register',
-          data: $('#form').serialize(),
+          data: $('#form').serialize(),//序列化
           type: 'POST',
           dataType: 'json',
-          success: function (result) {  
-            // console.log(result);
-            if (result.status === 200) {
+          success: function (result) {
+            console.log(result)
+            if(result.status === 200) {
               alert(result.msg);
               location.href = '/login'
             }
           }
         })
-
         return false;
       })
     })
