@@ -16,6 +16,18 @@ app.get('/', (req, res) => {
     res.render('index.ejs', {})
 })
 
+//用户请求的是注册页面
+app.get('/register', (req,res) => {
+    //注意: 当在调用模板引擎的res.render函数的时候 ./相对路径是相对于app.set('views')指定的目录来进行查找的
+    res.render('./user/register.ejs', {})
+})
+
+//用户请求的是登录页面
+app.get('/login', (req, res) => {
+    res.render('./user/login.ejs', {})
+})
+
+
 app.listen(80, () => {
     console.log('http://127.0.0.1');
 })
