@@ -3,6 +3,15 @@ const fs = require('fs')
 const path = require('path')
 const bodyParser = require('body-parser')
 const app = express()
+//导入session中间件
+const session = require('express-session')
+//注册session中间件
+//只要注册了session中间件 ,那么,今后只要能访问到req这个对象,必然能访问到req.session
+app.use(session({
+    secret: 'blog niubility',
+    resave: false,
+    saveUninitialized: false
+}))
 
 //设置默认的模板引擎
 app.set('view engine', 'ejs')
