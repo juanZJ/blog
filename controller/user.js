@@ -51,9 +51,15 @@ module.exports = {
             //存储登录状态
             req.session.isLogin = true
             //设置cookie时间
-            let hour = 1000 * 10
+            let hour = 1000 * 60 * 60 * 24 * 30
             req.session.cookie.expires = new Date(Date.now() + hour)
             res.send({ status: 200, msg: '恭喜你登陆成功'})
+        })
+    },
+    handleLogoutGet(req, res) {
+        req.session.destroy(err => {
+            //该回调函数执行表示销毁成功,让客户端重新访问指定的页面
+            res.redirect('/')
         })
     }
     //约定大于规则
