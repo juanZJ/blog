@@ -46,6 +46,13 @@ module.exports = {
         conn.query(querySql, [user.username, user.password], (err, result) => {
             if (err) return res.status(500).send({status: 500, msg: '登录失败请重试'})
             if(result.length === 0) return res.status(400).send({status: 400, msg: '用户名或密码错误请重试'})
+            //登录成功后存储用户信息到session中
+            req.session.user = result[0]
+            //存储登录状态
+            req.session.isLogin = true
+            //设置cookie时间
+            let hour = 1000 * 10
+            req.session.cookie.expires = new Date(Date.now() + hour)
             res.send({ status: 200, msg: '恭喜你登陆成功'})
         })
     }
