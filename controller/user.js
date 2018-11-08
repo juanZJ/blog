@@ -1,6 +1,6 @@
 const moment = require('moment')
 //导入数据库操作模块
-const conn = require('../db/index.js')
+const conn = require('../db/db.js')
 
 module.exports = {
     handleRegisterGet(req,res)  { 
@@ -57,9 +57,9 @@ module.exports = {
         })
     },
     handleLogoutGet(req, res) {
-        req.session.destroy(err => {
+        req.session.destroy(err => { //express-session的方法
             //该回调函数执行表示销毁成功,让客户端重新访问指定的页面
-            res.redirect('/')
+            res.redirect('/')  //express的方法
         })
     }
     //约定大于规则
