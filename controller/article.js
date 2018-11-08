@@ -1,5 +1,6 @@
 const moment = require('moment')
 const conn = require('../db/db.js')
+const marked = require('marked')
 module.exports = {
     handleArticleAddGet(req,res) {
         //判断用户的登录状态 处理登录拦截
@@ -26,9 +27,27 @@ module.exports = {
         })
     },
     handleArticleInfoGet(req, res) {
-        res.render('./article/info.ejs', {
-            user: req.session.user,
-            isLogin: req.session.isLogin
+        // req.query用于获取 ? 传递过来的参数
+        //console.log(req.params)  //req.params用于获取 :id传递过来的参数
+        const id = req.params.id
+        const querySql = 'select * from articles where id = ' + id
+        conn.query(querySql, (err,result) => {
+            //封装渲染的对象,登录用户信息和是否登录的记录
+            const renderObj = {
+                user: req.session.user, //如果用户未登录 user 则不存在
+                isLogin: req.session.isLogin
+            }
+            //如果出现错误或者查不到文章 就返回404页面
+            if(err || result.length !== 1) return res.render('./404.ejs', renderObj)
+            //如果找到文章就将文章转换为HTML标签
+            result[0].content = marked(result[0].content)
+            //将文章对象加到renderObj中
+            renderObj.article = result[0]
+            //渲染文章详情页面
+            res.render('./article/info.ejs', renderObj)
         })
+    },
+    handleArticleEditGet(req,res) {
+        if (!req.session.isLogin)return
     }
 }
